@@ -5,6 +5,15 @@ import copy
 import os
 #Firt-Feature
 
+#Function to always have correct inputs
+def read_integer(prompt):
+    while True:
+        try:
+            x = int(input(prompt))
+            return x
+        except ValueError:
+            print("That was no valid number. Try again.")
+
 # path to the CSV files with participant data
 participants_csv = "Coffee Partner Lottery participants.csv"
 
@@ -53,6 +62,10 @@ nparticipants = copy.deepcopy(participants)
 
 # Boolean flag to check if new pairing has been found
 new_pairs_found = False
+
+#group size input
+GS = read_integer("Please enter the group size: ")
+
 
 # try creating new pairing until successful
 while not new_pairs_found:   # to do: add a maximum number of tries
