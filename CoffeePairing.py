@@ -38,6 +38,8 @@ if os.path.exists(all_pairs_csv):
 
 # load participant's data
 formdata = pd.read_csv(participants_csv, sep=DELIMITER)
+formdata = formdata.drop(["ID"], axis = 1)
+print(formdata)
 
 # create duplicate-free list of participants
 participants = list(set(formdata[header_email]))
@@ -53,6 +55,10 @@ new_pairs_found = False
 
 # try creating new pairing until successful
 while not new_pairs_found:   # to do: add a maximum number of tries
+
+    dict_names = {}
+    dict_names.update(formdata)
+    print(dict_names)
   
     # if odd number of participants, create one triple, then pairs
     if len(participants)%2 != 0:
