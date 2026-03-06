@@ -3,7 +3,7 @@ import csv
 import random
 import copy
 import os
-#Test2
+#Maksim branch
 
 # path to the CSV files with participant data
 participants_csv = "Coffee Partner Lottery participants.csv"
