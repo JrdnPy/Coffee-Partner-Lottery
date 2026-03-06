@@ -68,15 +68,38 @@ GS = read_integer("Please enter the group size: ")
 n_groups = Total_group//GS
 r_groups = Total_group%GS
 
-while len(formdata) > r_groups:
-    i = 1
-    df_groups = {}
-    for homies in formdata:
-        homies = formdata.sample(n = GS)
-        df_groups[f"group {i}"] = homies
-        formdata = formdata.drop(index=homies.index)
-        i += 1
+i = 1
+df_groups = {}
 
+while len(formdata) > r_groups:
+    homies = formdata.sample(n = GS)
+    df_groups[f"group {i}"] = homies
+    formdata = formdata.drop(index=homies.index)
+    i += 1
+
+if r_groups > 0:
+    if r_groups < GS/2:
+        
+    else:
+        i = +1
+        df_groups[f"group {i}"] = formdata
+
+        
+
+
+
+
+print(f"\n{df_groups["group 1"]}")
+print(f"\n{df_groups["group 2"]}")
+print(f"\n{df_groups["group 3"]}")
+#print(f"\n{df_groups["group 4"]}")
+#print(f"\n{df_groups["group 5"]}")
+print(f"\n{formdata}")
+
+
+
+
+'''
 # try creating new pairing until successful
 while not new_pairs_found:   # to do: add a maximum number of tries
 
@@ -128,7 +151,7 @@ while not new_pairs_found:   # to do: add a maximum number of tries
         npairs = set()
         nparticipants = copy.deepcopy(participants)
 
-
+'''
 # assemble output for printout
 output_string = ""
 
