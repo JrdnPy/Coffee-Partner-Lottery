@@ -1,10 +1,10 @@
 ------------------------
 Today's coffee partners:
 ------------------------
-* Francisca (f.pessanha@uu.nl), Jordan (jordan@gmail.com)
-* Ahmed Amer (ahmedamet6069@gmail.com), Kim Baker (kim.baker@email.com)
-* Bob Smith (bob.smith@email.com), John Doe (john.doe@email.com)
-* Alice Smith (alice.smith@email.com), Eve Miller (eve.miller@email.com)
-* Enrico (e.benedetti@uu.nl), Eduardo Oliveira (e.carneirodeoliveira@uu.nl)
-* Maxim (maxim@gmail.com), Ruben (r.j.b.deboer@uu.nl), Veerle te Grotenhuis (veerletegrotenhuis@gmnail.com)
-* Isaac Alpizar-Chaconm (i.alpizarchacon@uu.nl), Xiaoyi Hu (x.y.hu@students.uu.nl))
+* Francisca (f.pessanha@uu.nl), Maxim (maxim@gmail.com)
+* Eduardo Oliveira (e.carneirodeoliveira@uu.nl), Xiaoyi Hu (x.y.hu@students.uu.nl))
+* Enrico (e.benedetti@uu.nl), John Doe (john.doe@email.com), Veerle te Grotenhuis (veerletegrotenhuis@gmnail.com)
+* Bob Smith (bob.smith@email.com), Isaac Alpizar-Chaconm (i.alpizarchacon@uu.nl)
+* Jordan (jordan@gmail.com), Kim Baker (kim.baker@email.com)
+* Ahmed Amer (ahmedamet6069@gmail.com), Alice Smith (alice.smith@email.com)
+* Eve Miller (eve.miller@email.com), Ruben (r.j.b.deboer@uu.nl)
