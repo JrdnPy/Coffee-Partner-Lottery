@@ -63,9 +63,19 @@ nparticipants = copy.deepcopy(participants)
 # Boolean flag to check if new pairing has been found
 new_pairs_found = False
 
-#group size input
+#group size input = x
 GS = read_integer("Please enter the group size: ")
+n_groups = Total_group//GS
+r_groups = Total_group%GS
 
+while len(formdata) > r_groups:
+    i = 1
+    df_groups = {}
+    for homies in formdata:
+        homies = formdata.sample(n = GS)
+        df_groups[f"group {i}"] = homies
+        formdata = formdata.drop(index=homies.index)
+        i += 1
 
 # try creating new pairing until successful
 while not new_pairs_found:   # to do: add a maximum number of tries
