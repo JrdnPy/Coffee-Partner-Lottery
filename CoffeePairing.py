@@ -4,6 +4,7 @@ import random
 import copy
 import os
 #Maksim branch
+print("main branch")
 
 # path to the CSV files with participant data
 participants_csv = "Coffee Partner Lottery participants.csv"
@@ -161,4 +162,3 @@ with open(all_pairs_csv, mode) as file:
 print()
 print("Job done.")
 
-MAKSIM CHANGE
