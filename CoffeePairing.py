@@ -3,161 +3,85 @@ import csv
 import random
 import copy
 import os
-#DevMain
+
+#Function to always have correct integer inputs
+def read_integer(prompt):
+    while True:
+        try:
+            x = int(input(prompt))
+            return x
+        except ValueError:
+            print("That was no valid number. Try again.")
 
 # path to the CSV files with participant data
 participants_csv = "Coffee Partner Lottery participants.csv"
 
-# header names in the CSV file (name and e-mail of participants)
-header_name = "Your name:"
-header_email = "Your e-mail:"
-
-# path to TXT file that stores the pairings of this round
-new_pairs_txt = "Coffee Partner Lottery new pairs.txt"
-
-# path to CSV file that stores the pairings of this round
-new_pairs_csv = "Coffee Partner Lottery new pairs.csv"
-
-# path to CSV file that stores all pairings (to avoid repetition)
-all_pairs_csv = "Coffee Partner Lottery all pairs.csv"
-        
-# init set of old pairs
-opairs = set()
-
+#Here you can choose what delimiter the csv uses
 DELIMITER=','
 
-# load all previous pairings (to avoid redundancies)
-if os.path.exists(all_pairs_csv):
-    with open(all_pairs_csv, "r") as file:
-        csvreader = csv.reader(file, delimiter=DELIMITER)
-        for row in csvreader:
-            group = []
-            for i in range(0,len(row)):
-                group.append(row[i])                        
-            opairs.add(tuple(group))
-
-# load participant's data
+# load participant's data from csv and clean if neccesary
 formdata = pd.read_csv(participants_csv, sep=DELIMITER)
+formdata = formdata.drop(["ID"], axis = 1)
 
-# create duplicate-free list of participants
-participants = list(set(formdata[header_email]))
+#Greet the user and explain what this game is
+print(f"""\n ====HOMIES MEET UP====
+\nHi there, and welcome to homies meet up!
+\nUsing this program random groups are generated of the currently signed up people. 
+""")
 
- # init set of new pairs
-npairs = set()
+#Show the current groupsize and ask how big you want the groups to be
+Total_group = len(formdata)
+print(f"""\nThe total amount of signed up people are: {Total_group}""")
+GS = read_integer("Please enter how large you want each group to be: ")
 
-# running set of participants
-nparticipants = copy.deepcopy(participants)
-
-# Boolean flag to check if new pairing has been found
-new_pairs_found = False
-
-# try creating new pairing until successful
-while not new_pairs_found:   # to do: add a maximum number of tries
-  
-    # if odd number of participants, create one triple, then pairs
-    if len(participants)%2 != 0:
-        
-        # take three random participants from list of participants
-        p1 = random.choice(nparticipants)
-        nparticipants.remove(p1)
-    
-        p2 = random.choice(nparticipants)
-        nparticipants.remove(p2)
-        
-        p3 = random.choice(nparticipants)
-        nparticipants.remove(p3)
-        
-        # create alphabetically sorted list of participants
-        plist = [p1, p2, p3]
-        plist.sort()
-                        
-        # add alphabetically sorted list to set of pairs
-        npairs.add(tuple(plist))
-
-  
-    # while still participants left to pair...
-    while len(nparticipants) > 0:
-
-        # take two random participants from list of participants
-        p1 = random.choice(nparticipants)
-        nparticipants.remove(p1)
-    
-        p2 = random.choice(nparticipants)
-        nparticipants.remove(p2)
-                
-        # create alphabetically sorted list of participants
-        plist = [p1, p2]
-        plist.sort()
-                        
-        # add alphabetically sorted list to set of pairs
-        npairs.add(tuple(plist))
-
- 
-    # check if all new pairs are indeed new, else reset
-    if npairs.isdisjoint(opairs):
-        new_pairs_found = True
+while True:
+    if GS > Total_group/2:
+        GS = read_integer(f"\nGroups size cannot be larger that half the groupsize ({Total_group/2}) please try again: ")
+    elif GS < 2: 
+        GS = read_integer(f"\nGroups size cannot be smaller then 2 please try again: ")
     else:
-        npairs = set()
-        nparticipants = copy.deepcopy(participants)
-
-
-# assemble output for printout
-output_string = ""
-
-output_string += "------------------------\n"
-output_string += "Today's coffee partners:\n"
-output_string += "------------------------\n"
-
-for pair in npairs:
-    pair = list(pair)
-    output_string += "* "
-    for i in range(0,len(pair)):
-        name_email_pair = f"{formdata[formdata[header_email] == pair[i]].iloc[0][header_name]} ({pair[i]})"
-        if i < len(pair)-1:
-            output_string += name_email_pair + ", "
-        else:
-            output_string += name_email_pair + "\n"
+        break
     
-# write output to console
-print(output_string)
 
-# write output into text file for later use
-with open(new_pairs_txt, "wb") as file:
-    file.write(output_string.encode("utf8"))
+#Calculate the amount of groups and the remainder
+n_groups = Total_group//GS
+r_groups = Total_group%GS
 
-# write new pairs into CSV file (for e.g. use in MailMerge)
-with open(new_pairs_csv, "w") as file:
-    header = ["name1", "email1", "name2", "email2", "name3", "email3"]
-    file.write(DELIMITER.join(header) + "\n")
-    for pair in npairs:
-        pair = list(pair)
-        for i in range(0,len(pair)):
-            name_email_pair = f"{formdata[formdata[header_email] == pair[i]].iloc[0][header_name]}{DELIMITER} {pair[i]}"
-            if i < len(pair)-1:
-                file.write(name_email_pair + DELIMITER + " ")
-            else:
-                file.write(name_email_pair + "\n")
-                
-# append pairs to history file
-if os.path.exists(all_pairs_csv):
-    mode = "a"
-else:
-    mode = "w"
+#Spilt the people up in random groups which are stored in dataframes. the dataframes are stored in a dictionary. 
+i = 1
+dict_groups = {}
 
-with open(all_pairs_csv, mode) as file:
-    for pair in npairs:
-        pair = list(pair)
-        for i in range(0,len(pair)):
-            if i < len(pair)-1:
-                file.write(pair[i] + DELIMITER)
-            else:
-                file.write(pair[i] + "\n")
+while len(formdata) > r_groups: # Makes the code run until you cannot create full groups. 
+    homies = formdata.sample(n = GS) # Homies will be a the newly formed group the sample function randomly pics x amount out of a dataframe. 
+    dict_groups[f"Group {i}"] = homies # Store the current Homies as group x inside of a dictionary with the key being group x
+    formdata = formdata.drop(index=homies.index) #  remove the current homies from the total list. 
+    i += 1 # increase group by 1
+
+#Ask how you want the remainders to be split up and split them up if there are people remaining.
+if r_groups > 0:
+    print(f"""\n there are {r_groups} people remaining how do you want to split them up? 
+\n1. Randomly asign them to the full groups.
+2. Create a new group of the remaining people. """)
+
+    rem_split = read_integer("\nPlease make a choice: ")
 
 
+if r_groups > 0: #If the reminder is bigger than 0 do this part else print the groups
+    if rem_split == 1:
+        while len(formdata) > 1: #check if the remaining people are more then one
+            for key in dict_groups: #goes trough the groups in the dictionary and adds person to asign to one of the groups. does that until no one is remaing
+                person_to_asign = formdata.sample(n=1)
+                dict_groups[key] = pd.concat([dict_groups[key], person_to_asign])
+                formdata = formdata.drop(index=person_to_asign.index)
+    
+    elif rem_split == 2: 
+        dict_groups[f"group {i}"] = formdata
+
+for group in dict_groups:
+    groupx = dict_groups[group]
+    print(f"\n===={group}====")
+    print(f"{groupx}")
              
 # print finishing message
 print()
 print("Job done.")
-
-print("hello")
-#This is Jordans Branch Hello!!!
