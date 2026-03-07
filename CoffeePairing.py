@@ -1,164 +1,104 @@
+import sys
+import subprocess
+
+# Function to check and install missing packages
+def install(package):
+    try:
+        __import__(package)
+    except ImportError:
+        print(f"Looks like you are missing the '{package}' library. Installing it now...")
+        # This secretly runs "pip install [package]" in the background
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+# Check and install our required packages
+install('pandas')
+install('gspread')
+
+# Now it is safe to do your normal imports!
 import pandas as pd
+import gspread
 import csv
 import random
 import copy
 import os
-#Maksim branch
-print("main branch")
 
-# path to the CSV files with participant data
-participants_csv = "Coffee Partner Lottery participants.csv"
+#Function to always have correct integer inputs
+def read_integer(prompt):
+    while True:
+        try:
+            x = int(input(prompt))
+            return x
+        except ValueError:
+            print("That was no valid number. Try again.")
 
 
 
-# header names in the CSV file (name and e-mail of participants)
-header_name = "Your name:"
-header_email = "Your e-mail:"
+# 1. Connect to Google Sheets
+# Find the exact folder where this Python script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# path to TXT file that stores the pairings of this round
-new_pairs_txt = "Coffee Partner Lottery new pairs.txt"
+# Stick the folder path and the filename together
+cred_path = os.path.join(script_dir, 'credentials.json')
 
-# path to CSV file that stores the pairings of this round
-new_pairs_csv = "Coffee Partner Lottery new pairs.csv"
+# Use that bulletproof path
+gc = gspread.service_account(filename=cred_path)
+spreadsheet = gc.open("API test UU")
+worksheet = spreadsheet.worksheet("Answers to the form (1)")
 
-# path to CSV file that stores all pairings (to avoid repetition)
-all_pairs_csv = "Coffee Partner Lottery all pairs.csv"
+# 2. Pull the data
+data = worksheet.get_all_records()
+
+# 3. Convert directly into a pandas DataFrame!
+formdata = pd.DataFrame(data)
+
+#Greet the user and explain what this game is
+print(f"""\n ====HOMIES MEET UP====
+\nHi there, and welcome to homies meet up!
+\nUsing this program random groups are generated of the currently signed up people. 
+""")
+
+#Show the current groupsize and ask how big you want the groups to be
+Total_group = len(formdata)
+print(f"""\nThe total amount of signed up people are: {Total_group}""")
+GS = read_integer("Please enter how large you want each group to be: ")
+
+#Calculate the amount of groups and the remainder
+n_groups = Total_group//GS
+r_groups = Total_group%GS
+
+#Spilt the people up in random groups which are stored in dataframes. the dataframes are stored in a dictionary. 
+i = 1
+df_groups = {}
+
+while len(formdata) > r_groups:
+    homies = formdata.sample(n = GS)
+    df_groups[f"group {i}"] = homies
+    formdata = formdata.drop(index=homies.index)
+    i += 1
+
+#Ask how you want the remainders to be split up and split them up
+print(f"""\n there are {r_groups} people remaining how do you want to split them up? 
+\n1. Randomly asign them to the full groups.
+2. Create a new group of the remaining people. """)
+
+rem_split = read_integer("Please make a choice: ")
+
+'''
+if r_groups > 0:
+    if r_groups < GS/2:
         
-# init set of old pairs
-opairs = set()
-
-DELIMITER=','
-
-# load all previous pairings (to avoid redundancies)
-if os.path.exists(all_pairs_csv):
-    with open(all_pairs_csv, "r") as file:
-        csvreader = csv.reader(file, delimiter=DELIMITER)
-        for row in csvreader:
-            group = []
-            for i in range(0,len(row)):
-                group.append(row[i])                        
-            opairs.add(tuple(group))
-
-# load participant's data
-formdata = pd.read_csv(participants_csv, sep=DELIMITER)
-
-# create duplicate-free list of participants
-participants = list(set(formdata[header_email]))
-
- # init set of new pairs
-npairs = set()
-
-# running set of participants
-nparticipants = copy.deepcopy(participants)
-
-# Boolean flag to check if new pairing has been found
-new_pairs_found = False
-
-# try creating new pairing until successful
-while not new_pairs_found:   # to do: add a maximum number of tries
-  
-    # if odd number of participants, create one triple, then pairs
-    if len(participants)%2 != 0:
-        
-        # take three random participants from list of participants
-        p1 = random.choice(nparticipants)
-        nparticipants.remove(p1)
-    
-        p2 = random.choice(nparticipants)
-        nparticipants.remove(p2)
-        
-        p3 = random.choice(nparticipants)
-        nparticipants.remove(p3)
-        
-        # create alphabetically sorted list of participants
-        plist = [p1, p2, p3]
-        plist.sort()
-                        
-        # add alphabetically sorted list to set of pairs
-        npairs.add(tuple(plist))
-
-  
-    # while still participants left to pair...
-    while len(nparticipants) > 0:
-
-        # take two random participants from list of participants
-        p1 = random.choice(nparticipants)
-        nparticipants.remove(p1)
-    
-        p2 = random.choice(nparticipants)
-        nparticipants.remove(p2)
-                
-        # create alphabetically sorted list of participants
-        plist = [p1, p2]
-        plist.sort()
-                        
-        # add alphabetically sorted list to set of pairs
-        npairs.add(tuple(plist))
-
- 
-    # check if all new pairs are indeed new, else reset
-    if npairs.isdisjoint(opairs):
-        new_pairs_found = True
     else:
-        npairs = set()
-        nparticipants = copy.deepcopy(participants)
+        i = +1
+        df_groups[f"group {i}"] = formdata
+'''
 
-
-# assemble output for printout
-output_string = ""
-
-output_string += "------------------------\n"
-output_string += "Today's coffee partners:\n"
-output_string += "------------------------\n"
-
-for pair in npairs:
-    pair = list(pair)
-    output_string += "* "
-    for i in range(0,len(pair)):
-        name_email_pair = f"{formdata[formdata[header_email] == pair[i]].iloc[0][header_name]} ({pair[i]})"
-        if i < len(pair)-1:
-            output_string += name_email_pair + ", "
-        else:
-            output_string += name_email_pair + "\n"
-    
-# write output to console
-print(output_string)
-
-# write output into text file for later use
-with open(new_pairs_txt, "wb") as file:
-    file.write(output_string.encode("utf8"))
-
-# write new pairs into CSV file (for e.g. use in MailMerge)
-with open(new_pairs_csv, "w") as file:
-    header = ["name1", "email1", "name2", "email2", "name3", "email3"]
-    file.write(DELIMITER.join(header) + "\n")
-    for pair in npairs:
-        pair = list(pair)
-        for i in range(0,len(pair)):
-            name_email_pair = f"{formdata[formdata[header_email] == pair[i]].iloc[0][header_name]}{DELIMITER} {pair[i]}"
-            if i < len(pair)-1:
-                file.write(name_email_pair + DELIMITER + " ")
-            else:
-                file.write(name_email_pair + "\n")
-                
-# append pairs to history file
-if os.path.exists(all_pairs_csv):
-    mode = "a"
-else:
-    mode = "w"
-
-with open(all_pairs_csv, mode) as file:
-    for pair in npairs:
-        pair = list(pair)
-        for i in range(0,len(pair)):
-            if i < len(pair)-1:
-                file.write(pair[i] + DELIMITER)
-            else:
-                file.write(pair[i] + "\n")
-
-
+print(f"\n{df_groups["group 1"]}")
+print(f"\n{df_groups["group 2"]}")
+print(f"\n{df_groups["group 3"]}")
+#print(f"\n{df_groups["group 4"]}")
+#print(f"\n{df_groups["group 5"]}")
+print(f"\n{formdata}")
              
 # print finishing message
 print()
 print("Job done.")
-
