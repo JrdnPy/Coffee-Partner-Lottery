@@ -34,6 +34,15 @@ Total_group = len(formdata)
 print(f"""\nThe total amount of signed up people are: {Total_group}""")
 GS = read_integer("Please enter how large you want each group to be: ")
 
+while True:
+    if GS > Total_group/2:
+        GS = read_integer(f"\nGroups size cannot be larger that half the groupsize ({Total_group/2}) please try again: ")
+    elif GS < 2: 
+        GS = read_integer(f"\nGroups size cannot be smaller then 2 please try again: ")
+    else:
+        break
+    
+
 #Calculate the amount of groups and the remainder
 n_groups = Total_group//GS
 r_groups = Total_group%GS
@@ -48,12 +57,13 @@ while len(formdata) > r_groups:
     formdata = formdata.drop(index=homies.index)
     i += 1
 
-#Ask how you want the remainders to be split up and split them up
-print(f"""\n there are {r_groups} people remaining how do you want to split them up? 
-\n1. Randomly asign them to the full groups.
+#Ask how you want the remainders to be split up and split them up if there are people remaining.
+if r_groups > 0:
+    print(f"""\n there are {r_groups} people remaining how do you want to split them up? 
+    \n1. Randomly asign them to the full groups.
 2. Create a new group of the remaining people. """)
 
-rem_split = read_integer("Please make a choice: ")
+    rem_split = read_integer("\nPlease make a choice: ")
 
 '''
 if r_groups > 0:
