@@ -53,7 +53,7 @@ dict_groups = {}
 
 while len(formdata) > r_groups: # Makes the code run until you cannot create full groups. 
     homies = formdata.sample(n = GS) # Homies will be a the newly formed group the sample function randomly pics x amount out of a dataframe. 
-    dict_groups[f"group {i}"] = homies # Store the current Homies as group x inside of a dictionary with the key being group x
+    dict_groups[f"Group {i}"] = homies # Store the current Homies as group x inside of a dictionary with the key being group x
     formdata = formdata.drop(index=homies.index) #  remove the current homies from the total list. 
     i += 1 # increase group by 1
 
@@ -66,16 +66,15 @@ if r_groups > 0:
     rem_split = read_integer("\nPlease make a choice: ")
 
 
-if r_groups > 0:
+if r_groups > 0: #If the reminder is bigger than 0 do this part else print the groups
     if rem_split == 1:
-        while len(formdata) > 1:
-            for key in dict_groups:
+        while len(formdata) > 1: #check if the remaining people are more then one
+            for key in dict_groups: #goes trough the groups in the dictionary and adds person to asign to one of the groups. does that until no one is remaing
                 person_to_asign = formdata.sample(n=1)
                 dict_groups[key] = pd.concat([dict_groups[key], person_to_asign])
                 formdata = formdata.drop(index=person_to_asign.index)
     
     elif rem_split == 2: 
-        i = +1
         dict_groups[f"group {i}"] = formdata
 
 for group in dict_groups:
