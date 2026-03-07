@@ -15,6 +15,7 @@ def read_integer(prompt):
 
 # path to the CSV files with participant data
 participants_csv = "Coffee Partner Lottery participants.csv"
+conversation_csv = "Conversation_starters.csv"
 
 #Here you can choose what delimiter the csv uses
 DELIMITER=','
@@ -22,6 +23,9 @@ DELIMITER=','
 # load participant's data from csv and clean if neccesary
 formdata = pd.read_csv(participants_csv, sep=DELIMITER)
 formdata = formdata.drop(["ID"], axis = 1)
+
+#load conversation starters
+conversation_starters = pd.read_csv(conversation_csv, header=None, sep = '\t')
 
 #Greet the user and explain what this game is
 print(f"""\n ====HOMIES MEET UP====
@@ -79,8 +83,11 @@ if r_groups > 0: #If the reminder is bigger than 0 do this part else print the g
 
 for group in dict_groups:
     groupx = dict_groups[group]
-    print(f"\n===={group}====")
+    print(f"\n\n===={group}====")
     print(f"{groupx}")
+    print(f"""\nThis will be your Homies this week!!
+So you have an easier time starting the conversation, here is a starter!
+\n{conversation_starters.sample(n=1).iloc[0]}""")
              
 # print finishing message
 print()
