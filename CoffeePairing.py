@@ -49,37 +49,39 @@ r_groups = Total_group%GS
 
 #Spilt the people up in random groups which are stored in dataframes. the dataframes are stored in a dictionary. 
 i = 1
-df_groups = {}
+dict_groups = {}
 
-while len(formdata) > r_groups:
-    homies = formdata.sample(n = GS)
-    df_groups[f"group {i}"] = homies
-    formdata = formdata.drop(index=homies.index)
-    i += 1
+while len(formdata) > r_groups: # Makes the code run until you cannot create full groups. 
+    homies = formdata.sample(n = GS) # Homies will be a the newly formed group the sample function randomly pics x amount out of a dataframe. 
+    dict_groups[f"group {i}"] = homies # Store the current Homies as group x inside of a dictionary with the key being group x
+    formdata = formdata.drop(index=homies.index) #  remove the current homies from the total list. 
+    i += 1 # increase group by 1
 
 #Ask how you want the remainders to be split up and split them up if there are people remaining.
 if r_groups > 0:
     print(f"""\n there are {r_groups} people remaining how do you want to split them up? 
-    \n1. Randomly asign them to the full groups.
+\n1. Randomly asign them to the full groups.
 2. Create a new group of the remaining people. """)
 
     rem_split = read_integer("\nPlease make a choice: ")
 
-'''
-if r_groups > 0:
-    if r_groups < GS/2:
-        
-    else:
-        i = +1
-        df_groups[f"group {i}"] = formdata
-'''
 
-print(f"\n{df_groups["group 1"]}")
-print(f"\n{df_groups["group 2"]}")
-print(f"\n{df_groups["group 3"]}")
-#print(f"\n{df_groups["group 4"]}")
-#print(f"\n{df_groups["group 5"]}")
-print(f"\n{formdata}")
+if r_groups > 0:
+    if rem_split == 1:
+        while len(formdata) > 1:
+            for key in dict_groups:
+                person_to_asign = formdata.sample(n=1)
+                dict_groups[key] = pd.concat([dict_groups[key], person_to_asign])
+                formdata = formdata.drop(index=person_to_asign.index)
+    
+    elif rem_split == 2: 
+        i = +1
+        dict_groups[f"group {i}"] = formdata
+
+for group in dict_groups:
+    groupx = dict_groups[group]
+    print(f"\n===={group}====")
+    print(f"{groupx}")
              
 # print finishing message
 print()
