@@ -139,14 +139,16 @@ if r_groups > 0: #If the reminder is bigger than 0 do this part else print the g
                 formdata = formdata.drop(index=person_to_asign.index)
     
     elif rem_split == 2: 
-        dict_groups[f"group {i}"] = formdata #since we are removing from the total list the remainders here will become the last group
+        dict_groups[f"Group {i}"] = formdata #since we are removing from the total list the remainders here will become the last group
+        
+    
 
 #Create a clean output of the groups with the starters. 
-for group in dict_groups:
-    groupx = dict_groups[group]
-    print(f"\n\n========== {group} ==========")
+for Group in dict_groups:
+    Groupx = dict_groups[Group]
+    print(f"\n\n========== {Group} ==========")
     print("\nThese people are your Homies this week!!")
-    print(f"\n{groupx}")
+    print(f"\n{Groupx}")
     print(f"""\nSo you have an easier time starting the conversation, here is a starter:
 \n{conversation_starters.iloc[:,0].sample(n=1).iloc[0]}""")
              
