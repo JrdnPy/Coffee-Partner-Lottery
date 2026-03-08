@@ -50,8 +50,6 @@ formdata = pd.DataFrame(data)
 # path to the CSV files with conversation starters data
 conversation_csv = "Conversation_starters.csv"
 
-#Here you can choose what delimiter the csv uses
-
 #load conversation starters
 conversation_starters = pd.read_csv(conversation_csv, sep = '\t')
 
@@ -74,7 +72,6 @@ while True:
     else:
         break
     
-
 #Calculate the amount of groups and the remainder
 n_groups = Total_group//GS
 r_groups = Total_group%GS
