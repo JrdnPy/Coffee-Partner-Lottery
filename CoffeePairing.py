@@ -105,8 +105,10 @@ elif r_groups == 1: #If there is only 1 person reandomy asign them to one of the
 
 if r_groups > 0: #If the reminder is bigger than 0 do this part else print the groups
     if rem_split == 1:
-        while len(formdata) > 1: #check if the remaining people are more then one
-            for key in dict_groups: #goes trough the groups in the dictionary and adds person to asign to one of the groups. does that until no one is remaing
+        while len(formdata) > 0: #check if the remaining people are more then one
+            for key in list(dict_groups.keys()):#goes trough the groups in the dictionary and adds person to asign to one of the groups. does that until no one is remaing
+                if len(formdata) == 0:
+                    break                 
                 person_to_asign = formdata.sample(n=1)
                 dict_groups[key] = pd.concat([dict_groups[key], person_to_asign])
                 formdata = formdata.drop(index=person_to_asign.index)
