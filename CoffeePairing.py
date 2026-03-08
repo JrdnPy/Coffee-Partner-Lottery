@@ -63,6 +63,31 @@ print(f"""\n ====HOMIES MEET UP====
 
 #Show the current groupsize and ask how big you want the groups to be
 Total_group = len(formdata)
+
+if Total_group == 1:
+    print("""
+          
+          This is an insufficient amount of participants.
+          
+          Please find some friends :(
+          
+          The programme will now terminate.
+          
+          """)
+    sys.exit(0)
+    
+if Total_group == 0:
+    print("""
+          
+          This is an insufficient amount of participants.
+          
+          Please find some friends :(
+          
+          The programme will now terminate.
+          
+          """)
+    sys.exit(0)
+
 print(f"""\nThe total amount of signed up people are: {Total_group}""")
 GS = read_integer("Please enter how large you want each group to be: ")
 
