@@ -44,8 +44,10 @@ worksheet = spreadsheet.worksheet("Answers to the form (1)")
 # 2. Pull the data
 data = worksheet.get_all_records()
 
-# 3. Convert directly into a pandas DataFrame!
+#Convert data into dataframe and clean it(remove the time column and rename the headers)
 formdata = pd.DataFrame(data)
+formdata = formdata.drop(["Time"], axis = 1)
+formdata.columns = ["Name:", "Email:"]
 
 # path to the CSV files with conversation starters data
 conversation_csv = "Conversation_starters.csv"
