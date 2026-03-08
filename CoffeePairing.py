@@ -97,6 +97,7 @@ if r_groups > 1:
 
 elif r_groups == 1: #If there is only 1 person reandomy asign them to one of the groups
     print("\nYou cannot have a group of one person, so the remaining person will be randomly assigned to one of the groups.")
+    input("\nPress enter to continue...")
     rem_split = 1
 
 
