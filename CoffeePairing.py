@@ -25,7 +25,7 @@ formdata = pd.read_csv(participants_csv, sep=DELIMITER)
 formdata = formdata.drop(["ID"], axis = 1)
 
 #load conversation starters
-conversation_starters = pd.read_csv(conversation_csv, header=None, sep = '\t')
+conversation_starters = pd.read_csv(conversation_csv, sep = '\t')
 
 #Greet the user and explain what this game is
 print(f"""\n ====HOMIES MEET UP====
@@ -79,16 +79,16 @@ if r_groups > 0: #If the reminder is bigger than 0 do this part else print the g
                 formdata = formdata.drop(index=person_to_asign.index)
     
     elif rem_split == 2: 
-        dict_groups[f"group {i}"] = formdata
+        dict_groups[f"group {i}"] = formdata #since we are removing from the total list the remainders here will become the last group
 
+#Create a clean output of the groups with the starters. 
 for group in dict_groups:
     groupx = dict_groups[group]
-    print(f"\n\n===={group}====")
-    print(f"{groupx}")
-    print(f"""\nThis will be your Homies this week!!
-So you have an easier time starting the conversation, here is a starter!
-\n{conversation_starters.sample(n=1).iloc[0]}""")
+    print(f"\n\n========== {group} ==========")
+    print("\nThese people are your Homies this week!!")
+    print(f"\n{groupx}")
+    print(f"""\nSo you have an easier time starting the conversation, here is a starter:
+\n{conversation_starters.iloc[:,0].sample(n=1).iloc[0]}""")
              
 # print finishing message
-print()
 print("Job done.")
