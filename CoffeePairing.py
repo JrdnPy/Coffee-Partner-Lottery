@@ -89,12 +89,17 @@ while len(formdata) > r_groups: # Makes the code run until you cannot create ful
     i += 1 # increase group by 1
 
 #Ask how you want the remainders to be split up and split them up if there are people remaining.
-if r_groups > 0:
+if r_groups > 1:
     print(f"""\n there are {r_groups} people remaining how do you want to split them up? 
 \n1. Randomly asign them to the full groups.
 2. Create a new group of the remaining people. """)
-
     rem_split = read_integer("\nPlease make a choice: ")
+
+elif r_groups == 1: #If there is only 1 person reandomy asign them to one of the groups
+    print("\nYou cannot have a group of one person, so the remaining person will be randomly assigned to one of the groups.")
+    rem_split = 1
+
+
 
 
 if r_groups > 0: #If the reminder is bigger than 0 do this part else print the groups
@@ -118,4 +123,4 @@ for group in dict_groups:
 \n{conversation_starters.iloc[:,0].sample(n=1).iloc[0]}""")
              
 # print finishing message
-print("Job done.")
+print("\nJob done.\n")
