@@ -72,7 +72,7 @@ input("""
 print("""
       
 1. Participants should sign up by filling in their Name and Email in the
-   the google form that can be found inside our "Documentation" document located within the ZIP folder.
+   google form that can be found inside our "Documentation" document located within the ZIP folder.
 
 2. This program automatically reads the survey responses, therefore there is
    no need to manually download any CSV file.
