@@ -14,7 +14,6 @@ def install(package):
 install('pandas')
 install('gspread')
 
-# Now it is safe to do your normal imports!
 import pandas as pd
 import gspread
 import os
@@ -29,14 +28,13 @@ def read_integer(prompt):
             print("That was no valid number. Try again.")
 
 
-# 1. Connect to Google Sheets
-# Find the exact folder where this Python script is located
+# connection to Google Sheets
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Stick the folder path and the filename together
+#folder path and the filename 
 cred_path = os.path.join(script_dir, 'credentials.json')
 
-# Use that bulletproof path
+#pathing
 gc = gspread.service_account(filename=cred_path)
 spreadsheet = gc.open("API test UU")
 worksheet = spreadsheet.worksheet("Answers to the form (1)")
@@ -44,7 +42,7 @@ worksheet = spreadsheet.worksheet("Answers to the form (1)")
 # 2. Pull the data
 data = worksheet.get_all_records()
 
-#Convert data into dataframe and clean it(remove the time column and rename the headers)
+#Conversion of data into dataframe and cleaning
 formdata = pd.DataFrame(data)
 formdata = formdata.drop(["Time"], axis = 1)
 formdata.columns = ["Name:", "Email:"]
@@ -141,7 +139,6 @@ if r_groups > 0: #If the reminder is bigger than 0 do this part else print the g
     elif rem_split == 2: 
         dict_groups[f"Group {i}"] = formdata #since we are removing from the total list the remainders here will become the last group
         
-    
 
 #Create a clean output of the groups with the starters. 
 for Group in dict_groups:
