@@ -84,6 +84,10 @@ print("""
    
 5. After adding participants, simply run the program again to generate new groups.
 
+6. After each round a txt file is created containing information about the groups,
+   participants and their respective conversation starters, this may be found in the ZIP folder
+   and is called 'Homies_groups'
+
 The program will now load the current list of participants.
       
       """)
