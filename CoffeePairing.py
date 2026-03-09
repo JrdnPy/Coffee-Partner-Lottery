@@ -72,15 +72,15 @@ input("""
 print("""
       
 1. Participants should sign up by filling in their Name and Email in the
-   the google form that can be found inside our "Documentation" document.
+   the google form that can be found inside our "Documentation" document located within the ZIP folder.
 
-2. This program automatically reads the survey responses, thereofre there is
+2. This program automatically reads the survey responses, therefore there is
    no need to manually download any CSV file.
  
 3. You can add or change participants at any time between rounds.
 
 4. For testing or grading, you can also directly edit the responses in the survey,
-   through the google sheets or the form itself (links foubd in "documentation")
+   through the google sheets or the form itself (links found in "documentation")
    
 5. After adding participants, simply run the program again to generate new groups.
 
