@@ -1,0 +1,83 @@
+Documentation - Project 2: Homies Meet Up
+Extended Mystery Coffee
+Submitted: March 2026
+
+1. Group Members
+
+The following students actively participated in the project:
+
+- Amer, Ahmed: 
+- te Grotenhuis, Veerle: 
+- Sammut, Jordan: 
+- Spirov, Maksim: 
+
+All four members contributed to design discussions, testing, debugging, and documentation. No members dropped out of the project.
+
+(All members are (INFOB2PWD) students.)
+
+2. Project Status
+
+All requirements from the project specification have been fully addressed. We also implemented the advanced direct API connection (which exceeds the basic CSV requirement).
+
+	1. Reads the list of participants from an online form (via Google Sheets API) → Completed (advanced implementation – direct API, no manual CSV download needed)
+	2. Provides clear instructions inside the program on how to use the form → Completed
+	3. List of participants is read again every round → Completed
+	4. Random assignment of people into groups → Completed
+	5. Group size is configurable via user input → Completed
+	6. Correct handling of remainders (no participant left unmatched) → Completed
+	7. Generated groups printed to screen in nice, readable formatting → Completed
+	8. New conversation starter provided every round from local file → Completed
+	9. Generates personalised messages for all groups and saves them to text files → Completed
+	10. New name for the version of Mystery Coffee (“Homies Meet Up”) → Completed
+	11. (INFOMCTH only) Used Git/GitHub for version control → Completed (branches per feature, frequent commits, final merge)
+
+
+
+3. Running Instructions
+
+To run the Homies Meet Up program:
+
+Prerequisites:
+- Python 3.x installed (Anaconda recommended)
+- The file `credentials.json` must be placed in the project folder (this file is excluded from GitHub for security reasons – ask any team member for it)
+
+Steps to run:
+
+1. Download or clone the project folder containing CoffeePairing.py, Conversation_starters.csv, and credentials.json.
+
+2. Make sure `credentials.json` is in the exact same folder as CoffeePairing.py.
+
+3. Open a terminal/command prompt and navigate to the project folder.
+
+4. Run the program with the following command:
+   python CoffeePairing.py or click on the programme to run.
+
+The program will automatically:
+- Connect to our live Google Form/Sheet via the API
+- Read the current participants
+- Ask for the desired group size
+- Generate random groups
+- Print the groups on screen
+- Create a “messages” folder with personalised messages for every group
+
+For testing/grading purposes, you can freely add, edit, or delete participants:
+
+- Google Form (submit new participants here):  
+  https://docs.google.com/forms/d/e/1FAIpQLSemwJe1pQ1iYSyOYGhO27lI5_Upb6yLx9Ba18c1bKELbNpQLg/viewform
+
+- Google Form full editing link:  
+  https://docs.google.com/forms/d/1vCNStQhurlDlzWQEvLXha4cZJn56ioZ6nj1h_8dsHug/edit
+
+- Google Spreadsheet (direct view/edit of responses):  
+  https://docs.google.com/spreadsheets/d/1gOU0vEgMX_smeaA6xXh-o7ZXA36IMAumtfD35Mce8Xo/edit?resourcekey=&gid=1439925328#gid=1439925328
+
+You can submit the form or edit the spreadsheet while the program is running – it always reads the latest data on every execution.
+
+
+Please Note:  
+
+The program includes an auto-installer that will check for and install the following required packages via `pip` if they are missing:
+* `pandas` (for data manipulation)
+* `gspread` (for Google Sheets API integration)
+
+Because we use direct API access, there is no need to manually download any CSV file.
