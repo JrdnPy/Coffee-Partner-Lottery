@@ -181,16 +181,26 @@ if r_groups > 0: #If the reminder is bigger than 0 do this part else print the g
     
     elif rem_split == 2: 
         dict_groups[f"Group {i}"] = formdata #since we are removing from the total list the remainders here will become the last group
-        
 
-#Create a clean output of the groups with the starters. 
-for Group in dict_groups:
-    Groupx = dict_groups[Group]
-    print(f"\n\n========== {Group} ==========")
-    print("\nThese people are your Homies this week!!")
-    print(f"\n{Groupx}")
-    print(f"""\nSo you have an easier time starting the conversation, here is a starter:
+#Open a text file to save the current group formation and their conversation starters 
+with open("homies_groups.txt", "w") as file:
+
+    #Create a clean output of the groups with the starters. 
+    for Group in dict_groups:
+        Groupx = dict_groups[Group]
+        print(f"\n\n========== {Group} ==========")
+        print("\nThese people are your Homies this week!!")
+        print(f"\n{Groupx}")
+        print(f"""\nSo you have an easier time starting the conversation, here is a starter:
 \n{conversation_starters.iloc[:,0].sample(n=1).iloc[0]}""")
              
-# print finishing message
+
+        file.write(f"\n\n========== {Group} ==========")
+        file.write("\nThese people are your Homies this week!!")
+        file.write(f"\n{Groupx}")
+        file.write(f"""\nSo you have an easier time starting the conversation, here is a starter:
+    \n{conversation_starters.iloc[:,0].sample(n=1).iloc[0]}""")
+
+
+#Print finishing message
 print("\nJob done.\n")
