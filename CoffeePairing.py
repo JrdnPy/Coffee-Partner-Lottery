@@ -53,6 +53,49 @@ conversation_csv = "Conversation_starters.csv"
 #load conversation starters
 conversation_starters = pd.read_csv(conversation_csv, sep = '\t')
 
+print("""
+      
+Welcome to "Get to know a local Homie".
+      
+Before we initiate group size selection and creation we must explain how this programme works.
+      
+      
+      """)
+      
+      
+input("""
+      
+      'Enter' to continue
+      
+      """)
+    
+print("""
+      
+1. Participants should sign up by filling in their Name and Email in the
+   the google form that can be found inside our "Documentation" document.
+
+2. This program automatically reads the survey responses, thereofre there is
+   no need to manually download any CSV file.
+ 
+3. You can add or change participants at any time between rounds.
+
+4. For testing or grading, you can also directly edit the responses in the survey,
+   through the google sheets or the form itself (links foubd in "documentation")
+   
+5. After adding participants, simply run the program again to generate new groups.
+
+The program will now load the current list of participants.
+      
+      """)
+
+
+input("""
+      
+      'Enter' to continue
+      
+      """)
+
+
 #Greet the user and explain what this game is
 print(f"""\n ====HOMIES MEET UP====
 \nHi there, and welcome to homies meet up!
