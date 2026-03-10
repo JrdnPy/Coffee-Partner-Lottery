@@ -50,6 +50,10 @@ formdata.columns = ["Name:", "Email:"]
 # path to the CSV files with conversation starters data
 conversation_csv = "Conversation_starters.csv"
 
+# Folder path to save the generated groups
+output_folder = "Group_files"
+output_folder_path = os.path.join(script_dir, output_folder)
+
 #load conversation starters
 conversation_starters = pd.read_csv(conversation_csv, sep = '\t')
 
@@ -158,7 +162,7 @@ while len(formdata) > r_groups: # Makes the code run until you cannot create ful
     formdata = formdata.drop(index=homies.index) #  remove the current homies from the total list. 
     i += 1 # increase group by 1
 
-#Ask how you want the remainders to be split up and split them up if there are people remaining.
+# Ask how you want the remainders to be split up and split them up if there are people remaining.
 if r_groups > 1:
     print(f"""\n there are {r_groups} people remaining how do you want to split them up? 
 \n1. Randomly asign them to the full groups.
@@ -186,24 +190,31 @@ if r_groups > 0: #If the reminder is bigger than 0 do this part else print the g
     elif rem_split == 2: 
         dict_groups[f"Group {i}"] = formdata #since we are removing from the total list the remainders here will become the last group
 
-#Open a text file to save the current group formation and their conversation starters 
-with open("homies_groups.txt", "w") as file:
 
-    #Create a clean output of the groups with the starters. 
-    for Group in dict_groups:
-        Groupx = dict_groups[Group]
-        print(f"\n\n========== {Group} ==========")
-        print("\nThese people are your Homies this week!!")
-        print(f"\n{Groupx}")
-        print(f"""\nSo you have an easier time starting the conversation, here is a starter:
-\n{conversation_starters.iloc[:,0].sample(n=1).iloc[0]}""")
-             
+# Clear old group files and recreate the folder if needed.
+os.makedirs(output_folder_path, exist_ok=True)
+for file_name in os.listdir(output_folder_path):
+    if file_name.endswith(".txt"):
+        os.remove(os.path.join(output_folder_path, file_name))
 
-        file.write(f"\n\n========== {Group} ==========")
-        file.write("\nThese people are your Homies this week!!")
-        file.write(f"\n{Groupx}")
-        file.write(f"""\nSo you have an easier time starting the conversation, here is a starter:
-    \n{conversation_starters.iloc[:,0].sample(n=1).iloc[0]}""")
+# Create a clean output of the groups with the starters.
+for Group in dict_groups:
+    Groupx = dict_groups[Group]
+    starter = conversation_starters.iloc[:,0].sample(n=1).iloc[0]
+    group_output = (
+        f"\n\n========== {Group} =========="
+        f"\nThese people are your Homies this week!!"
+        f"\n\n{Groupx}"
+        f"\n\nSo you have an easier time starting the conversation, here is a starter:"
+        f"\n{starter}"
+    )
+
+    print(group_output)
+
+    group_file_name = f"{Group}.txt"
+    group_file_path = os.path.join(output_folder_path, group_file_name)
+    with open(group_file_path, "w", encoding="utf-8") as file:
+        file.write(group_output)
 
 
 #Print finishing message
