@@ -174,9 +174,6 @@ elif r_groups == 1: #If there is only 1 person reandomy asign them to one of the
     input("\nPress enter to continue...")
     rem_split = 1
 
-
-
-
 if r_groups > 0: #If the reminder is bigger than 0 do this part else print the groups
     if rem_split == 1:
         while len(formdata) > 0: #check if the remaining people are more then one
@@ -197,25 +194,26 @@ for file_name in os.listdir(output_folder_path):
         os.remove(os.path.join(output_folder_path, file_name))
 
     #Create a clean output of the groups with the starters. 
-    for Group in dict_groups:
-        Groupx = dict_groups[Group]
-        print(f"\n\n========== {Group} ==========")
-        print("\nThese people are your Homies this week!!")
-        print(f"\n{Groupx}")
-        print(f"""\nSo you have an easier time starting the conversation, here is a starter:
+for Group in dict_groups:
+    Groupx = dict_groups[Group]
+    print(f"\n\n========== {Group} ==========")
+    print("\nThese people are your Homies this week!!")
+    print(f"\n{Groupx}")
+    print(f"""\nSo you have an easier time starting the conversation, here is a starter:
 \n{conversation_starters.iloc[:,0].sample(n=1).iloc[0]}""")
 
 #Open a text file to save the current group formation and their conversation starters 
-        group_file_name = f"{Group}.txt"
-        group_file_path = os.path.join(output_folder_path, group_file_name)
-        with open(group_file_path, "w") as file:      
+    group_file_name = f"{Group}.txt"
+    group_file_path = os.path.join(output_folder_path, group_file_name)
+    with open(group_file_path, "w") as file:      
 
-            file.write(f"""========== {Group} =========="
-\nThese people are your Homies this week!!)
-\n{Groupx})
+        file.write(f"""========== {Group} =========="
+\nThese people are your Homies this week!!
+\n{Groupx}
 \nSo you have an easier time starting the conversation, here is a starter:
-\n{conversation_starters.iloc[:,0].sample(n=1).iloc[0]}.txt""")
+\n{conversation_starters.iloc[:,0].sample(n=1).iloc[0]}""")
 
 
 #Print finishing message
 print("\nJob done.\n")
+

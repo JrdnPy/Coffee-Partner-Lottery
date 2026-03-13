@@ -6,10 +6,13 @@ Submitted: March 2026
 
 The following students actively participated in the project:
 
-- Amer, Ahmed: 
-- te Grotenhuis, Veerle: 
-- Sammut, Jordan: 
-- Spirov, Maksim: 
+- Amer, Ahmed: 9472428
+- te Grotenhuis, Veerle: 7641737
+- Sammut, Jordan: 2131188 
+- Spirov, Maksim: 1313436
+
+All group members were equally active and contributed equally to the project.
+Github was used for collaberation. Most of the work was done in person on campus. Some bug fixes were made seperatly using the github. 
 
 All four members contributed to design discussions, testing, debugging, and documentation. No members dropped out of the project.
 
@@ -61,6 +64,7 @@ The program will automatically:
 - Create a “messages” folder with personalised messages for every group
 
 For testing/grading purposes, you can freely add, edit, or delete participants:
+PLEASE NOTE: Participants AND their respective indexed cells must be deleted from both forms and sheets !
 
 - Google Form (submit new participants here):  
   https://docs.google.com/forms/d/e/1FAIpQLSemwJe1pQ1iYSyOYGhO27lI5_Upb6yLx9Ba18c1bKELbNpQLg/viewform
